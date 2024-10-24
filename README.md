@@ -5,8 +5,8 @@
 1. After downloading the folder, open your terminal and navigate to the `chess-2` directory.
 2. Run the following commands in the terminal:
 
-   npm install
-   node server/server.js
+- npm install
+- node server/server.js
 
 3. Open a web browser and navigate to `http://localhost:3037` on two different tabs or computers.
 
