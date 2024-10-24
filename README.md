@@ -8,7 +8,7 @@
 - npm install
 - node server/server.js
 
-3. Open a web browser and navigate to `http://localhost:3037` on two different tabs or computers.
+3. Open a web browser and navigate to `http://localhost:3037` on two different tabs.
 
 # How to Play:
 
