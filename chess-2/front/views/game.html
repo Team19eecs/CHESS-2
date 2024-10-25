@@ -1,0 +1,182 @@
+<html>
+    <head>
+        <!-- Include the 'head' partial template for meta tags and external resources -->
+        {{> head}}
+        
+        <style>
+            /* Shop container styling */
+            #shop {
+                width: 300px;
+                border: 2px solid black;
+                padding: 10px;
+                margin-left: 50px;
+                height: 676px; /* Fixed height for the shop container */
+                overflow: hidden; /* Hide any overflow content */
+                display: flex;
+                flex-direction: column; /* Align content vertically */
+            }
+
+            /* Center the shop title */
+            #shop h2 {
+                text-align: center;
+            }
+
+            /* Style available and purchased card sections */
+            #available-cards, #purchased-cards {
+                margin-top: 20px;
+                flex-grow: 1; /* Make sections grow to fill available space */
+                overflow-y: auto; /* Enable vertical scrolling */
+            }
+
+            /* Set max height for available cards section */
+            #available-cards {
+                max-height: 300px;
+            }
+
+            /* Set max height for purchased cards section */
+            #purchased-cards {
+                max-height: 260px;
+            }
+
+            /* Style individual cards */
+            .card {
+                border: 1px solid gray;
+                padding: 10px;
+                margin-bottom: 10px;
+                cursor: pointer; /* Change cursor to pointer on hover */
+                text-align: center;
+            }
+
+            /* Change background color on card hover */
+            .card:hover {
+                background-color: #f0f0f0;
+            }
+
+            /* Style purchased cards with a green background */
+            .purchased-card {
+                background-color: #d4edda;
+            }
+
+            /* Error message styling */
+            #error-message {
+                color: red;
+                text-align: center;
+                margin-top: 10px;
+            }
+        </style>
+    </head>
+    
+    <body>
+        <div style="display: flex;">
+            <!-- Chessboard container -->
+            <div id="myBoard" style="width: 700px"></div>
+
+            <!-- Shop section -->
+            <div id="shop">
+                <h2>Shop</h2>
+
+                <!-- Available Cards section -->
+                <div id="available-cards">
+                    <h3>Available Cards</h3>
+                    <div class="card" data-price="5" data-name="Extra Pawn">
+                        Buy Extra Pawn - 5 Points
+                    </div>
+                    <div class="card" data-price="8" data-name="Extra Knight">
+                        Buy Extra Knight - 8 Points
+                    </div>
+                    <div class="card" data-price="10" data-name="Extra Rook">
+                        Buy Extra Rook - 10 Points
+                    </div>
+                    <!-- Add more cards as needed -->
+                </div>
+
+                <!-- Purchased Cards section -->
+                <div id="purchased-cards">
+                    <h3>Purchased Cards</h3>
+                    <div id="no-purchase">No cards purchased yet.</div>
+                </div>
+
+                <!-- Error message for insufficient points -->
+                <div id="error-message"></div>
+            </div>
+        </div>
+
+        <!-- Display game status and PGN -->
+        <label>Status:</label>
+        <div id="status"></div>
+        <label>PGN:</label>
+        <div id="pgn"></div>
+
+        <!-- Points display for each player -->
+        <div id="points">
+            <div id="whitePoints" style="display: none;">White Points: 0</div>
+            <div id="blackPoints" style="display: none;">Black Points: 0</div>
+        </div>
+
+        <script>
+            // Set the player's color from the server-side variable
+            let playerColor = '{{color}}';
+
+            // Initialize points for both players (e.g., 20 points)
+            let points = playerColor === 'white' ? 20 : 20;
+
+            // Function to update the points display for the current player
+            function updatePointsDisplay() {
+                if (playerColor === 'white') {
+                    document.getElementById('whitePoints').textContent = `White Points: ${points}`;
+                } else if (playerColor === 'black') {
+                    document.getElementById('blackPoints').textContent = `Black Points: ${points}`;
+                }
+            }
+
+            // Update the points display on page load
+            updatePointsDisplay();
+
+            // Conditionally show points display for the current player
+            if (playerColor === 'white') {
+                document.getElementById('whitePoints').style.display = 'block';
+            } else if (playerColor === 'black') {
+                document.getElementById('blackPoints').style.display = 'block';
+            }
+
+            // Select all cards from the available cards section
+            const cards = document.querySelectorAll('.card');
+            const purchasedCards = document.getElementById('purchased-cards');
+            const noPurchaseText = document.getElementById('no-purchase');
+            const errorMessage = document.getElementById('error-message');
+
+            // Add event listeners to each card for purchase functionality
+            cards.forEach(card => {
+                card.addEventListener('click', function() {
+                    const cardName = this.getAttribute('data-name'); // Get card name
+                    const cardPrice = parseInt(this.getAttribute('data-price'), 10); // Get card price
+
+                    // Check if the player has enough points to buy the card
+                    if (points >= cardPrice) {
+                        points -= cardPrice; // Deduct points
+                        updatePointsDisplay(); // Update points display
+
+                        // Create a new purchased card element
+                        const purchasedCard = document.createElement('div');
+                        purchasedCard.classList.add('card', 'purchased-card');
+                        purchasedCard.textContent = `Purchased: ${cardName}`;
+                        purchasedCards.appendChild(purchasedCard); // Add to purchased cards
+
+                        // Hide the 'No cards purchased yet' message
+                        noPurchaseText.style.display = 'none';
+
+                        // Clear any existing error message
+                        errorMessage.textContent = '';
+                    } else {
+                        // Show an error message if points are insufficient
+                        errorMessage.textContent = 'You do not have enough points to purchase this card.';
+                    }
+                });
+            });
+        </script>
+
+        <!-- Include the external JavaScript file for the chess game logic -->
+        <script src="/public/js/index.js"></script>
+
+    </body>
+</html>

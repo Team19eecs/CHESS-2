@@ -1,0 +1,62 @@
+/* Utility class to clear floats */
+.clearfix-7da63 {
+    clear: both;
+}
+
+/* Styles for the chessboard container */
+.board-b72b1 {
+    border: 2px solid #404040; /* Set a solid border around the chessboard */
+    box-sizing: content-box; /* Ensure padding and borders are not included in the element’s width/height */
+}
+
+/* Styles for individual squares on the chessboard */
+.square-55d63 {
+    float: left; /* Align squares next to each other in a row */
+    position: relative; /* Allow absolute positioning of child elements */
+    
+    /* Disable user selection to prevent accidental highlighting or interaction */
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+/* Styles for white squares on the chessboard */
+.white-1e1d7 {
+    background-color: #f0d9b5; /* Light beige background for white squares */
+    color: #b58863; /* Text color for any content inside white squares */
+}
+
+/* Styles for black squares on the chessboard */
+.black-3c85d {
+    background-color: #b58863; /* Brown background for black squares */
+    color: #f0d9b5; /* Text color for any content inside black squares */
+}
+
+/* Highlight styles for squares (e.g., valid moves or selected pieces) */
+.highlight1-32417,
+.highlight2-9c5d2 {
+    box-shadow: inset 0 0 3px 3px #ff0; /* Add a yellow highlight with an inset shadow */
+}
+
+/* Styles for the notation labels on the chessboard (e.g., a1, h8) */
+.notation-322f9 {
+    cursor: default; /* Prevent text cursor on hover */
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; /* Use standard sans-serif fonts */
+    font-size: 14px; /* Set the font size for notations */
+    position: absolute; /* Position the notations within the square */
+}
+
+/* Position the alphanumeric notations at the bottom right corner of the square */
+.alpha-d2270 {
+    bottom: 1px; /* Slightly above the bottom edge */
+    right: 3px; /* Slightly left of the right edge */
+}
+
+/* Position numeric notations at the top left corner of the square */
+.numeric-fc462 {
+    top: 2px; /* Slightly below the top edge */
+    left: 2px; /* Slightly right of the left edge */
+}
