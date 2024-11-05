@@ -1,0 +1,51 @@
+<html>
+    <head>
+        {{> head}}
+        <style>
+            
+        </style>
+    </head>
+    <body>
+        <div class="center-container">
+            <div id="myBoard"></div>
+            <!-- <label>Status:</label> -->
+            <div id="status"></div>
+            <!-- <label>PGN:</label> -->
+            <!-- <div id="pgn"></div> -->
+            <div id="coinBalance">Coins: 20</div>
+
+            <div class="button-container">
+                <button id="Flip Board" data-cost="3">Flip Board</button>
+                <button id="Im Suckin It" data-cost="5">I'm Suckin' It</button>
+                <button id="Inflation" data-cost="4">Inflation</button>
+                <button id="Double or Nothing" data-cost="3">Double or Nothing</button>
+                <button id="Russian Roulette" data-cost="6">Russian Roulette</button>
+
+
+                <script>
+                    // Function to update button text with the cost
+                    function updateButtonTextWithCost() {
+                        const buttons = document.querySelectorAll("button[data-cost]"); // Select all buttons with a data-cost attribute
+
+                        buttons.forEach(button => {
+                            const baseCost = parseInt(button.getAttribute("data-cost")); // Get the base cost from data attribute
+                            const adjustedCost = Math.ceil(baseCost * costMultiplier);   // Adjust cost with multiplier
+                            button.textContent = `${button.id.replace("Button", "").replace(/([A-Z])/g, ' $1')}: (${adjustedCost} coins)`; // Display adjusted cost
+                        });
+                    }
+
+                    document.addEventListener("DOMContentLoaded", () => {
+                        updateButtonTextWithCost(); // Update button text after DOM loads
+
+                        // The rest of your event listeners or other code
+                    });
+                </script>
+              </div>
+
+        <script>
+            let playerColor = '{{color}}';
+            console.log('Playing as ' + playerColor);
+        </script>
+        <script src="/public/js/index.js"></script>
+    </body>
+</html>
