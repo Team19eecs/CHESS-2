@@ -1,0 +1,22 @@
+<!-- Include the jQuery library to simplify DOM manipulation and AJAX calls -->
+<script src="/public/js/jquery-3.7.0.min.js"></script>
+
+<!-- Link the CSS file for styling the chessboard -->
+<link rel="stylesheet" href="/public/css/chessboard-1.0.0.min.css" />
+
+<!-- Include the chessboard.js library to render the interactive chessboard -->
+<script src="/public/js/chessboard-1.0.0.min.js"></script>
+
+<!-- Include the chess.js library to handle chess game logic (moves, rules, etc.) -->
+<script src="/public/js/chess-0.10.3.min.js"></script>
+
+<!-- Ensure the page is responsive on all devices with the viewport meta tag -->
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<!-- Load the Socket.IO library to enable real-time communication with the server -->
+<script src="/socket.io/socket.io.js"></script>
+
+<!-- Initialize the Socket.IO connection and assign it to the 'socket' variable -->
+<script>
+  let socket = io(); // Establish a WebSocket connection with the server
+</script>

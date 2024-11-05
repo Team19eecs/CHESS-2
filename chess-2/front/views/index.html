@@ -1,0 +1,45 @@
+<html>
+    <head>
+        <!-- Include the 'head' partial template for meta tags and any external resources -->
+        {{> head}}
+    </head>
+
+    <body>
+        <!-- Input field and buttons for creating or joining a game -->
+        <h2>Game code</h2>
+        
+        <!-- Text input for entering the game code -->
+        <input type="text" id="codeInput">
+        
+        <!-- Button to create a new game as the white player -->
+        <button id="createGame">Create game</button>
+        
+        <!-- Button to join an existing game as the black player -->
+        <button id="joinGame">Join game</button>
+
+        <!-- Error message container (displayed if an invalid code is used) -->
+        <div style="color: red" id="errorMessage"></div>
+
+        <script>
+            // Event listener for the 'Create game' button
+            $('#createGame').on('click', function() {
+                // Redirect to the white player game page with the entered game code
+                window.location.replace('/white?code=' + $('#codeInput').val());
+            });
+
+            // Event listener for the 'Join game' button
+            $('#joinGame').on('click', function() {
+                // Redirect to the black player game page with the entered game code
+                window.location.replace('/black?code=' + $('#codeInput').val());
+            });
+
+            // Check URL parameters for any error messages
+            var urlParams = new URLSearchParams(window.location.search);
+
+            // If an invalid code error is found, display an error message
+            if (urlParams.get('error') == 'invalidCode') {
+                $('#errorMessage').text('Invalid invite code');
+            }
+        </script>
+    </body>
+</html>

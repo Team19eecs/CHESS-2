@@ -1,0 +1,65 @@
+<html>
+    <head>
+        {{> head}}
+    </head>
+    <body>
+        <div class="center-container">
+            <!-- Chessboard container -->
+            <div id="myBoard"></div>
+
+            <!-- Status message container (optional) -->
+            <!-- <label>Status:</label> -->
+            <div id="status"></div>
+
+            <!-- PGN (Portable Game Notation) container for tracking moves (optional) -->
+            <!-- <label>PGN:</label> -->
+            <!-- <div id="pgn"></div> -->
+
+            <!-- Coin balance display -->
+            <div id="coinBalance">Coins: 20</div>
+
+            <!-- Container for action buttons -->
+            <div class="button-container">
+                <button id="Flip Board" data-cost="3">Flip Board</button>
+                <button id="Im Suckin It" data-cost="5">I'm Suckin' It</button>
+                <button id="Inflation" data-cost="4">Inflation</button>
+                <button id="Double or Nothing" data-cost="3">Double or Nothing</button>
+                <button id="Russian Roulette" data-cost="6">Russian Roulette</button>
+
+                <script>
+                    // Function to update button text with adjusted coin cost
+                    function updateButtonTextWithCost() {
+                        // Select all buttons that have a data-cost attribute
+                        const buttons = document.querySelectorAll("button[data-cost]");
+
+                        // Iterate through each button to apply cost adjustments
+                        buttons.forEach(button => {
+                            // Retrieve the base cost defined in the data attribute
+                            const baseCost = parseInt(button.getAttribute("data-cost"));
+                            // Calculate adjusted cost based on a cost multiplier (defined elsewhere in your code)
+                            const adjustedCost = Math.ceil(baseCost * costMultiplier);
+                            // Update button text to display the action name and adjusted cost
+                            button.textContent = `${button.id.replace("Button", "").replace(/([A-Z])/g, ' $1')}: (${adjustedCost} coins)`;
+                        });
+                    }
+
+                    // Event listener for DOM content load to ensure elements are available for manipulation
+                    document.addEventListener("DOMContentLoaded", () => {
+                        // Update button text with costs after the page loads
+                        updateButtonTextWithCost();
+
+                        // Additional event listeners or code initialization can go here
+                    });
+                </script>
+            </div>
+
+        <!-- Script to set and display player color in console -->
+        <script>
+            let playerColor = '{{color}}';
+            console.log('Playing as ' + playerColor);
+        </script>
+
+        <!-- Include main JavaScript file -->
+        <script src="/public/js/index.js"></script>
+    </body>
+</html>
