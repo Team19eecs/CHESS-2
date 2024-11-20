@@ -1,0 +1,193 @@
+<html>
+    <head>
+        <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+        {{> head}}
+        <style>
+            body {
+                font-family: 'Press Start 2P', sans-serif; /* Arcade font */
+                background: #000000;
+                color: white;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                height: 100vh;
+                margin: 0;
+                overflow: hidden; /* Prevent scrollbars */
+            }
+
+            .center-container {
+                display: flex;
+                flex-direction: row; /* Align chessboard and button container horizontally */
+                gap: 20px; /* Space between chessboard and button container */
+                height: calc(100vh - 80px); /* Account for the bottom status bar */
+                align-items: center; /* Vertically center chessboard and buttons */
+            }
+
+            #myBoard {
+                width: 500px; /* Adjust chessboard width */
+                height: 500px; /* Adjust chessboard height */
+                background: #eee; /* Placeholder for chessboard background */
+                opacity: 0;
+                transform: translateY(20px);
+                transition: opacity 1s ease, transform 1s ease;
+            }
+
+            .button-container {
+                display: flex;
+                flex-direction: column; /* Arrange buttons vertically */
+                justify-content: flex-start; /* Align buttons to the top */
+                align-items: flex-start; /* Align buttons to the left inside the container */
+                padding: 20px;
+                background: rgba(255, 255, 255, 0.1); /* Semi-transparent background for the container */
+                /*border: 2px solid white;  Border around the container */
+                border-radius: 10px; /* Rounded corners for the container */
+                width: 350px; /* Adjust width of the button container */
+                height: fit-content; /* Allow the container to adjust its height */
+                opacity: 0;
+                transform: translateY(20px);
+                transition: opacity 1s ease, transform 1s ease;
+            }
+
+            .button-container button {
+                display: flex;
+                justify-content: space-between; /* Align text to the sides */
+                align-items: center;
+                font-family: 'Press Start 2P', sans-serif;
+                width: 100%; /* Make buttons fill the container width */
+                margin: 5px 0; /* Space between buttons */
+                padding: 10px; /* Padding for button text */
+                background: #007bff; /* Button background color */
+                color: white; /* Button text color */
+                border: none; /* Remove default button border */
+                border-radius: 5px; /* Rounded corners for buttons */
+                cursor: pointer; /* Change cursor to pointer on hover */
+                font-size: 10px; /* Adjust button font size */
+            }
+
+            .button-container button:hover {
+                background: #0069da; /* Change background color on hover */
+            }
+
+            .bottom-container {
+                position: fixed; /* Fixed at the bottom of the screen */
+                bottom: 0;
+                left: 0;
+                width: 100%; /* Full width */
+                background: rgba(0, 0, 0, 0.8); /* Semi-transparent black background */
+                color: white;
+                display: flex;
+                justify-content: space-between; /* Distribute content to the edges */
+                align-items: center;
+                padding: 10px 20px; /* Padding for the container */
+                box-sizing: border-box;
+                border-top: 2px solid white; /* Top border for separation */
+                opacity: 0;
+                transform: translateY(20px);
+                transition: opacity 1s ease, transform 1s ease;
+            }
+
+            #status {
+                font-size: 16px;
+            }
+
+            #coinBalance {
+                font-size: 16px;
+            }
+
+            /* Black overlay for transition */
+            #overlay {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: black;
+                z-index: 1000; /* Ensure it's above all other elements */
+                opacity: 1;
+                transition: opacity 1s ease;
+            }
+        </style>
+    </head>
+    <body>
+        <!-- Black overlay -->
+        <div id="overlay"></div>
+
+        <div class="center-container">
+            <!-- Chessboard container -->
+            <div id="myBoard"></div>
+
+            <!-- Container for action buttons -->
+            <div class="button-container">
+                <button id="Flip Board" data-cost="1"><span>Flip Board</span><span>3 Coins</span></button>
+                <button id="Im Suckin It" data-cost="6"><span>I'm Suckin' It</span><span>5 Coins</span></button>
+                <button id="Inflation" data-cost="5"><span>Inflation</span><span>4 Coins</span></button>
+                <button id="Double or Nothing" data-cost="3"><span>Double or Nothing</span><span>3 Coins</span></button>
+                <button id="Russian Roulette" data-cost="6"><span>Russian Roulette</span><span>6 Coins</span></button>
+                <button id="Rizzler" data-cost="5"><span>Rizzler</span><span>5 Coins</span></button>
+                <button id="Pray to God" data-cost="1"><span>Pray to God</span><span>1 Coin</span></button>
+                <button id="Multiplier" data-cost="3"><span>Multiplier</span><span>3 Coins</span></button>
+                <button id="Lemme See" data-cost="2"><span>Lemme See</span><span>2 Coins</span></button>
+                <button id="Mystery Box" data-cost="1"><span>Mystery Box</span><span>1 Coin</span></button>
+            </div>
+        </div>
+
+        <!-- Bottom status and coin display -->
+        <div class="bottom-container">
+            <div id="status">Status: Waiting for opponent...</div>
+            <div id="coinBalance">Coins: 20</div>
+        </div>
+
+        <script>
+            // Trigger animations after page load
+            window.onload = function () {
+                const overlay = document.getElementById('overlay');
+                const myBoard = document.getElementById('myBoard');
+                const buttonContainer = document.querySelector('.button-container');
+                const bottomContainer = document.querySelector('.bottom-container');
+
+                // Animate game elements
+                setTimeout(() => {
+                    myBoard.style.opacity = "1";
+                    myBoard.style.transform = "translateY(0)";
+                }, 500);
+
+                setTimeout(() => {
+                    buttonContainer.style.opacity = "1";
+                    buttonContainer.style.transform = "translateY(0)";
+                }, 1000);
+
+                setTimeout(() => {
+                    bottomContainer.style.opacity = "1";
+                    bottomContainer.style.transform = "translateY(0)";
+                }, 1500);
+
+                // Fade out overlay
+                setTimeout(() => {
+                    overlay.style.opacity = "0";
+                    setTimeout(() => overlay.style.display = "none", 1000);
+                }, 1500);
+            };
+
+            // Function to update button text with adjusted coin cost
+            function updateButtonTextWithCost() {
+                const buttons = document.querySelectorAll("button[data-cost]");
+                buttons.forEach(button => {
+                    const baseCost = parseInt(button.getAttribute("data-cost"));
+                    const adjustedCost = Math.ceil(baseCost * (costMultiplier || 1));
+                    const [nameSpan, costSpan] = button.children;
+                    costSpan.textContent = `${adjustedCost} Coins`;
+                });
+            }
+
+            document.addEventListener("DOMContentLoaded", () => {
+                updateButtonTextWithCost();
+            });
+        </script>
+
+        <script>
+            let playerColor = '{{color}}';
+        </script>
+        <script src="/public/js/index.js"></script>
+    </body>
+</html>
